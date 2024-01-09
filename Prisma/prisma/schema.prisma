@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Creating a model in Prisma (Table)
+// Note - we need to create a ID and we should add the tag Id.
+
+// [] - means we can have many posts. 
+// ? - means the field is optional 
+
+// User and Post have a 1 - M relation
+model User {
+  id String @id @default(uuid())
+  name String
+  age Int
+  email String @unique
+  isAdmin Role @default(BASIC)
+  posts Post[]
+  userPreference UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId String? @unique
+  
+
+  // Instead of field attributes we can also use block Attributes usin '@@' for ex :
+
+  @@unique([age, name])
+  @@index([email])
+}
+
+model Post {
+  id String @id @default(uuid())
+  rating Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author User @relation(fields: [authorId], references: [id])
+  authorId String
+  categories Category[]
+}
+
+// Post and Category have a M - M relation
+
+model Category {
+  id String @id @default(uuid())
+  name String @unique
+  posts Post[]
+}
+
+// User and UserPreference has 1 - 1 relation.
+model UserPreference {
+  id String @id @default(uuid())
+  email Boolean
+  user User?
+}
+
+// We can also create enums in Prisma
+enum Role {
+  BASIC
+  ADMIN
+}
+// To create a migration File - npx prisma migrate dev --name migration1 

@@ -1,0 +1,45 @@
+-- @block
+CREATE TABLE Users(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    bio TEXT,
+    country VARCHAR(2)
+);
+
+-- @block
+INSERT INTO Users (email, bio, country)
+VALUES (
+    'vipinbhatt@google.com',
+    'I am a SDE',
+    'IN'
+)
+
+-- @block
+INSERT INTO Users (email, bio, country)
+VALUES ('new1@gmail.com', 'Test', 'US'),
+('new2@gmail.com', 'Test', 'In'),
+('new3@gmail.com', 'Test', 'EU');
+
+-- @block
+SELECT * FROM Users;
+
+-- @block
+SELECT email, id FROM Users 
+ORDER BY id DESC LIMIT 2
+
+
+-- @block
+SELECT email, id FROM Users 
+WHERE country = 'US' 
+ORDER BY id DESC LIMIT 2
+
+
+-- @block
+SELECT email, id FROM Users 
+WHERE country = 'IN' AND email LIKE'n%' 
+ORDER BY id DESC LIMIT 2
+
+-- @block
+SELECT email, id FROM Users 
+WHERE country = 'IN' AND email LIKE'%m' 
+ORDER BY id DESC LIMIT 2
