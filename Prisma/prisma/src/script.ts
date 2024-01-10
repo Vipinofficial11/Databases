@@ -63,6 +63,9 @@ const fetchAllUsers = async () => {
   console.log("All Users", JSON.stringify(users));
 };
 
+/*
+ Update data.
+*/
 const updateData = async () => {
   const updatedUser = await prisma.user.update({
     data: {
